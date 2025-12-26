@@ -90,7 +90,7 @@ export const StartCountdownButton = styled.button`
   gap: 0.5rem;
   font-weight: bold;
   cursor: pointer;
-  background: ${(props) => props.theme['blue-500']};
+  background: ${(props) => props.theme['blue-300']};
   color: ${(props) => props.theme['gray-100']};
 
   &:disabled {
@@ -98,6 +98,6 @@ export const StartCountdownButton = styled.button`
     cursor: not-allowed;
   }
   &:not(:disabled):hover {
-    background: ${(props) => props.theme['blue-700']};
+    background: ${(props) => props.theme['blue-500']};
   }
 `
