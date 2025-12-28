@@ -1,7 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Play } from 'phosphor-react'
+import React, { useEffect } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import z from 'zod'
+import { differenceInSeconds } from 'date-fns'
+
 import {
   CountdownContainer,
   FormContainer,
@@ -22,7 +25,18 @@ const newCycleFormSchema = z.object({
 
 type newCycleFormData = z.infer<typeof newCycleFormSchema>
 
+interface Cycle {
+  id: string
+  task: string
+  minutesAmount: number
+  startDate: Date
+}
+
 export function Home() {
+  const [cycles, setCycles] = React.useState<Cycle[]>([])
+  const [activeCycleId, setActiveCycleId] = React.useState<string | null>(null)
+  const [amountSecondsPass, setAmountSecondsPass] = React.useState(0)
+
   const { control, register, handleSubmit, reset } = useForm<newCycleFormData>({
     resolver: zodResolver(newCycleFormSchema),
     defaultValues: {
@@ -31,13 +45,52 @@ export function Home() {
     },
   })
 
+  const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>
+
+    if (activeCycle) {
+      interval = setInterval(() => {
+        setAmountSecondsPass(
+          differenceInSeconds(new Date(), activeCycle.startDate),
+        )
+      }, 1000)
+    }
+    return () => {
+      clearInterval(interval)
+    }
+  }, [activeCycle])
+
   const task = useWatch({ control, name: 'task' })
   const isSubmitDisabled = !task
 
   function handleCreateNewCycle(data: newCycleFormData) {
-    console.log(data)
+    const id = String(new Date().getTime())
+    const newCycle: Cycle = {
+      id: id,
+      task: data.task,
+      minutesAmount: data.minutesAmount,
+      startDate: new Date(),
+    }
+    setCycles((state) => [...state, newCycle])
+    setActiveCycleId(id)
+    setAmountSecondsPass(0)
     reset()
   }
+
+  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
+  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPass : 0
+  const minutesAmount = Math.floor(currentSeconds / 60)
+  const secondsAmount = currentSeconds % 60
+  const minutes = String(minutesAmount).padStart(2, '0')
+  const seconds = String(secondsAmount).padStart(2, '0')
+
+  useEffect(() => {
+    if (activeCycle) {
+      document.title = `OFS TIMER | ${minutes}:${seconds}`
+    }
+  }, [minutes, seconds, activeCycle])
 
   return (
     <HomeContainer>
@@ -70,11 +123,11 @@ export function Home() {
           <span>minutos.</span>
         </FormContainer>
         <CountdownContainer>
-          <span>0</span>
-          <span>0</span>
+          <span>{minutes[0]}</span>
+          <span>{minutes[1]}</span>
           <Separator>:</Separator>
-          <span>0</span>
-          <span>0</span>
+          <span>{seconds[0]}</span>
+          <span>{seconds[1]}</span>
         </CountdownContainer>
         <StartCountdownButton disabled={isSubmitDisabled} type="submit">
           <Play size={24} />
