@@ -34,15 +34,20 @@ export function Home() {
     },
   })
 
-  const { handleSubmit, /*reset*/ watch } = newCycleForm
+  const { handleSubmit, reset, watch } = newCycleForm
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const task = watch('task')
   const isSubmitDisabled = !task
 
+  function handleCreateNewCycle(data: newCycleFormData) {
+    createNewCycle(data)
+    reset()
+  }
+
   return (
     <HomeContainer>
-      <form onSubmit={handleSubmit(createNewCycle)} action="">
+      <form onSubmit={handleSubmit(handleCreateNewCycle)} action="">
         <FormProvider {...newCycleForm}>
           <NewCycleForm />
         </FormProvider>
