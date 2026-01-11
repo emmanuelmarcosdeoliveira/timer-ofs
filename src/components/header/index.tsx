@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <>
       <HeaderContainer>
-        <div>
+        <div title='OliveiraFullStack'>
           <img width={42} src={logoImg} alt="logo OFS" />
         </div>
         <nav>
