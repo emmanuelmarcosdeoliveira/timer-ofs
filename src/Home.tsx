@@ -1,36 +1,33 @@
-import { useState, createContext, useContext } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CyclesContext = createContext({} as any)
+const Cycle = createContext({} as any)
 
-function NewCycleForm() {
-  const { activeCycles, setActiveCycles } = useContext(CyclesContext)
+function NewCycleForms() {
+  const { count, setCount } = useContext(Cycle)
   return (
     <>
-      <h3>NewCycleForm: {activeCycles} </h3>
-      <button
-        onClick={() => {
-          setActiveCycles(2)
-        }}
-      >
-        Alterar ciclo ativo
-      </button>
+      <h1>newCyleForm: {count}</h1>
+      <button onClick={() => setCount(count + 3)}>Alterar Ciclo ativo</button>
+    </>
+  )
+}
+function Countdown() {
+  const { count } = useContext(Cycle)
+  return (
+    <>
+      <h1>countdown: {count} </h1>
     </>
   )
 }
 
-function Countdown() {
-  const { activeCycles } = useContext(CyclesContext)
-  return <h3>Countdown: {activeCycles}</h3>
-}
-
 export default function Home() {
-  const [activeCycles, setActiveCycles] = useState(0)
+  const [count, setCount] = useState(1)
   return (
-    <CyclesContext.Provider value={{ activeCycles, setActiveCycles }}>
-      <h1>Minha Home</h1>
-      <NewCycleForm />
+    <Cycle.Provider value={{ count, setCount }}>
+      <h1>Home</h1>
       <Countdown />
-    </CyclesContext.Provider>
+      <NewCycleForms />
+    </Cycle.Provider>
   )
 }

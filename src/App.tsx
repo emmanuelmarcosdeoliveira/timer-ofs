@@ -1,12 +1,12 @@
-import { ThemeProvider } from 'styled-components'
-import Router from './router'
-import { GlobalStyles } from './styles/global'
-import { defaultTheme } from './styles/themes/theme'
-import { CyclesContextProvider } from './context/CycleContext'
 //import Home from './Home'
 
+import { ThemeProvider } from "styled-components";
+import { CyclesContextProvider } from "./context/CycleContext";
+import { defaultTheme } from "./styles/themes/theme";
+import  Router  from './router/index'
+import { GlobalStyles } from "./styles/global";
 export function App() {
-  return (
+    return (
     <ThemeProvider theme={defaultTheme}>
       <CyclesContextProvider>
         <Router />
