@@ -5,6 +5,7 @@ import {
   interruptCurrentCycleAction,
   markCurrentCycleAsFinishAction,
 } from '../reducers/cycles/actions'
+import { differenceInSeconds } from 'date-fns'
 interface CreateCycleData {
   task: string
   minutesAmount: number
@@ -20,7 +21,6 @@ interface CyclesContextType {
   interruptCurrentCycle: () => void
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const CyclesContext = createContext({} as CyclesContextType)
 
 interface CyclesContextProviderProps {
@@ -30,15 +30,38 @@ interface CyclesContextProviderProps {
 export function CyclesContextProvider({
   children,
 }: CyclesContextProviderProps) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [cyclesState, dispatch] = React.useReducer(cyclesReducer, {
-    cycles: [],
-    activeCycleId: null,
-  })
+  const [cyclesState, dispatch] = React.useReducer(
+    cyclesReducer,
+    {
+      cycles: [],
+      activeCycleId: null,
+    },
+    (initialState) => {
+      const storeStateAsJSON = localStorage.getItem(
+        'ofs-timer:cyclesState-v1.0',
+      )
+      if (storeStateAsJSON) {
+        return JSON.parse(storeStateAsJSON)
+      }
+      return initialState
+    },
+  )
 
-  const [amountSecondsPass, setAmountSecondsPass] = React.useState(0)
   const { activeCycleId, cycles } = cyclesState
   const activeCycle = cycles.find((cycle) => cycle.id === activeCycleId)
+
+  const [amountSecondsPass, setAmountSecondsPass] = React.useState(() => {
+    if (activeCycle) {
+      return differenceInSeconds(new Date(), new Date(activeCycle?.startDate))
+    }
+    return 0
+  })
+
+  React.useEffect(() => {
+    const stateJSON = JSON.stringify(cyclesState)
+
+    localStorage.setItem('ofs-timer:cyclesState-v1.0', stateJSON)
+  }, [cyclesState])
 
   function setSecondsPassed(seconds: number) {
     setAmountSecondsPass(seconds)
