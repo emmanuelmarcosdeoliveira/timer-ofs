@@ -34,11 +34,11 @@
 
 Aplicação de timer estilo Pomodoro. Permite criar ciclos de foco com tarefa e duração personalizadas, acompanhar a contagem regressiva em tempo real e consultar o histórico de ciclos concluídos, interrompidos ou em andamento. O estado da aplicação é persistido automaticamente no `localStorage`, permitindo retomar os dados entre sessões.
 
-©créditos [Rocketseat](https://rocketseat.com)
+©créditos [Rocketseat](https://www.rocketseat.com.br/)
 
 | Item                | Detalhe                                                          |
 | ------------------- | ---------------------------------------------------------------- |
-| Tipo de repositório | Monolito                                                         |
+| Tipo de repositório | Monólito                                                         |
 | Estrutura           | SPA React com Vite, roteamento client-side e estado global local |
 
 Desenvolvido por **Emmanuel Oliveira**.
@@ -168,7 +168,7 @@ pnpm install
 
 <img height="64px" src="https://res.cloudinary.com/delo0gvyb/image/upload/v1752287431/profile_mjvmdb.png">
 
-[Emmanuel Oliveira](https://www.linkedin.com/in/oliveira-emmanuel/)
+[Emmanuel Oliveira](https://portfolio.ofs.dev.br)
 
 <small>
 
