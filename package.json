@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-   "@hookform/resolvers": "^5.2.2",
+    "@hookform/resolvers": "^5.2.2",
     "date-fns": "^4.1.0",
     "immer": "^11.1.8",
     "phosphor-react": "^1.4.1",
@@ -32,13 +32,14 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "rollup-plugin-visualizer": "^7.0.1",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "npm:rolldown-vite@7.2.5"
   },
   "pnpm": {
     "overrides": {
-      "vite": "npm:rolldown-vite@7.2.5"
+      "vite": "npm:rolldown-vite@7.3.1"
     }
   },
   "packageManager": "pnpm@11.6.0+sha512.9a36518224080c6fe5165afdcfe79bfa118c29be703f3f462b1e32efe1e98e47e8750b148e08286250aad4113cc7993ca413c4e2cd447752708c2ee5751bc95f"
